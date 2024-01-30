@@ -62,7 +62,22 @@ impl<'c> CookieBuilder<'c> {
         where N: Into<Cow<'c, str>>,
               V: Into<Cow<'c, str>>
     {
-        CookieBuilder { cookie: Cookie::new(name, value) }
+        CookieBuilder { cookie: Cookie::new(name, value) }    
+    }
+
+    /// Sets the `value` field in the cookie being built.
+    ///
+    /// # Example
+    ///
+    /// ```rust
+    /// use cookie::Cookie;
+    ///
+    /// let c = Cookie::build("foo").value("bar");
+    /// assert_eq!(c.inner().name_value(), ("foo", "bar"));
+    /// ```
+    pub fn value<V: Into<Cow<'c, str>>>(mut self, value: V) -> Self {
+        self.cookie.set_value(value);
+        self
     }
 
     /// Sets the `expires` field in the cookie being built.
