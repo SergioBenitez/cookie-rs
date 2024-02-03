@@ -586,6 +586,18 @@ impl CookieJar {
     }
 }
 
+use std::iter::FromIterator;
+
+impl FromIterator<Cookie<'static>> for CookieJar {
+    fn from_iter<T: IntoIterator<Item = Cookie<'static>>>(iter: T) -> Self {
+        let mut jar = Self::new();
+        for cookie in iter.into_iter() {
+            jar.add_original(cookie);
+        }
+        jar
+    }
+}
+
 use std::collections::hash_set::Iter as HashSetIter;
 
 /// Iterator over the changes to a cookie jar.
